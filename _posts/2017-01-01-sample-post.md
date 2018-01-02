@@ -9,13 +9,13 @@ image: Biology.jpg
 
 ### Objective of the post
 
-This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly optimization problems solving in C++ as an example the classical TSP (Traveling Salesman Problem).
+This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly in the field of optimization problems. We will be solving in C++ the classical TSP (Traveling Salesman Problem) using GA (Genetic Algorithms).
 
 ### What Genetic Algorithms are and are not.
 
-Genetic algorithms for optimization is in fact guidelines of designing a heuristic optimization solver in which we trade the possibility of finding the exact (although we could get exact values too) global maxima/minima in return for a faster execution time. 
+Genetic algorithms for optimization can be seen as set of guidelines for designing a heuristic optimization solver in which we trade accuracy in finding the global maxima/minima in return for a faster execution time. 
 
-This means that it works as a blueprint algorithm in which every concept or step must be adapted to the problem someone is being solved.
+This means that it works as a blueprint algorithm in which every concept or step must be adapted to the problem that is being solved.
 
 ### An heuristic approach to a simple optimization Problem
 
