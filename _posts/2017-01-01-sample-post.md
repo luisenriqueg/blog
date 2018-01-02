@@ -4,7 +4,7 @@ title: "Sample Post"
 author: "Luis Enrique"
 categories: journal
 tags: [documentation,sample]
-image: cards.jpg
+image: Biology.jpg
 ---
 
 ### Introduction to Genetic Algorithms
