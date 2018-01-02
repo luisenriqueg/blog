@@ -19,9 +19,9 @@ This means that it works as a blueprint algorithm in which every concept or step
 
 ### An heuristic approach to a simple optimization Problem
 
-Imagine we have a continuous function \(y = f(x)\) (not necessarily smooth) and we wish to find the global maxima of that function in an interval \(\[a,b\]\) with an error of $\epsilon$.
+Imagine we have a continuous function $y = f(x)$ (not necessarily smooth) and we wish to find the global maxima of that function in an interval $\[a,b\]$ with an error of $\epsilon$.
 
-One way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 1e-r$ so the number of operations is in the order of $10^r$ $O((b-a)\cdot 10^r)$ this can be slow.
+One way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ so the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ this can be slow.
 
 
 
