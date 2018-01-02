@@ -1,15 +1,32 @@
 ---
 layout: post
-title: "Sample Post"
+title: "Introduction to Genetic Algorithms with C++ to solve TSP"
 author: "Luis Enrique"
 categories: journal
 tags: [documentation,sample]
 image: Biology.jpg
 ---
 
-### Introduction to Genetic Algorithms
+### Objective of the post
 
-Praesent varius interdum vehicula. Aenean risus libero, placerat at vestibulum eget, ultricies eu enim. Praesent nulla tortor, malesuada adipiscing adipiscing sollicitudin, adipiscing eget est.
+This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly optimization problems solving in C++ as an example the classical TSP (Traveling Salesman Problem).
+
+### What Genetic Algorithms are and are not.
+
+Genetic algorithms for optimization is in fact guidelines of designing a heuristic optimization solver in which we trade the possibility of finding the exact (although we could get exact values too) global maxima/minima in return for a faster execution time. 
+
+This means that it works as a blueprint algorithm in which every concept or step must be adapted to the problem someone is being solved.
+
+### An heuristic approach to a simple optimization Problem
+
+Imagine we have a continuous function $y = f(x)$ (not necessarily smooth) and we wish to find the global maxima of that function in an interval $\[a,b\]$ with an error of $\epsilon$.
+
+One way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 1e-r$ so the number of operations is in the order of $10^r$ $O((b-a)\cdot 10^r)$ this can be slow.
+
+
+
+
+
 
 > This quote will change your life. It will reveal the secrets of the universe, and all the wonders of humanity. Don't misuse it.
 
