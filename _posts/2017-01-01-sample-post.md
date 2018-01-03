@@ -11,7 +11,7 @@ image: Biology.jpg
 
 This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly in the field of optimization problems. We will be solving in C++ the classical TSP (Traveling Salesman Problem) using GA (Genetic Algorithms).
 
-### What Genetic Algorithms are and are not.
+### A Genetic Algorithms perspective
 
 Genetic algorithms for optimization can be seen as set of guidelines for designing a heuristic optimization solver in which we trade accuracy in finding the global maxima/minima in return for a faster execution time. 
 
@@ -19,10 +19,12 @@ This means that it works as a blueprint algorithm in which every concept or step
 
 ### An heuristic approach to a simple optimization Problem
 
-Imagine we have a continuous function $y = f(x)$ (not necessarily smooth) and we wish to find the global maxima of that function in an interval $\[a,b\]$ with an error of $\epsilon$.
+Let $y = f(x)$ be a continuous function, we want to find the global maxima of that function in an interval $\[a,b\]$ with an absolute error of $\epsilon$.
 
-One way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ so the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ this can be slow.
+One deterministic way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ this means the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ which can be slow.
 
+
+Now, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value and repeat the process.
 
 
 
