@@ -21,21 +21,26 @@ This means that it works as a blueprint algorithm in which every concept or step
 
 This problem will allow us to grasp the main idea in Genetic Algorithms.
 
-Let $y = f(x)$ be a continuous function, we want to find the global maxima of that function in an interval $\[a,b\]$ with an absolute error of $\epsilon$.
+Let $f(x) : \mathbb{R} \rightarrow \mathbb{R}$ be a continuous function, we want to find the global maxima of that function in an interval $\[a,b\]$ with an absolute error of $\epsilon$.
 
 One deterministic way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ this means the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ which can be slow.
 
 
-Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value and repeat the process, since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fullfill our needs "good answer in short time".
+Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i) \quad \lambda \in \[0,1\]$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value and repeat the process, since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fullfill our needs "good answer in short time".
 
 ### Defining the Genetic Algorithms concepts
 
 The definition of the GA concepts will be described as an analogy to previuos heuristic solution.
 
-1) Population
-2) Chromosome
-3) Crossover
-4) Mutation
+1. Objective Function: Function we want to optmize. In the previous problem this would be $f(x)$
+
+2. Chromosome: A generic variable that our objective function receives. In the previous problem this would be any $x_i$
+
+3. Population: A set of chromosomes. In the previuos example this would be $X$ with size $N$.
+
+4. Crossover: How we combine 2 chromosomes in hope for better chromosomes. In previuos example this would be $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$
+
+5. Mutation: A way to avoid staying in a local maxima. In previuos exmaple this would be choosing a random $x$ in hope to move the maximum value found so far.
 
 
 
