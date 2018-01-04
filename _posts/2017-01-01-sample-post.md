@@ -26,7 +26,7 @@ Let $f(x) : \mathbb{R} \rightarrow \mathbb{R}$ be a continuous function, we want
 One deterministic way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ this means the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ which can be slow.
 
 
-Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i) \quad \lambda \in \[0,1\]$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value and repeat the process, since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fullfill our needs "good answer in short time".
+Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i) \quad \lambda \in \[0,1\]$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value $x'$ and repeat the process evaluating $f(x')$ and combining. Since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fullfill our needs "good answer in short time".
 
 ### Defining the Genetic Algorithms concepts
 
@@ -38,9 +38,36 @@ The definition of the GA concepts will be described as an analogy to previuos he
 
 3. Population: A set of chromosomes. In the previuos example this would be $X$ with size $N$.
 
-4. Crossover: How we combine 2 chromosomes in hope for better chromosomes. In previuos example this would be $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$
+4. Crossover: How we combine chromosomes in hope for better chromosomes. In previuos example this would be $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$
 
-5. Mutation: A way to avoid staying in a local maxima. In previuos exmaple this would be choosing a random $x$ in hope to move the maximum value found so far.
+5. Mutation: A way to avoid staying in a local maxima, giving a chance to explore possible better values. In previuos exmaple this would be choosing a random $x$ in hope to improve the maximum value found so far.
+
+this can be easily generalized for functions $f:\mathbb{R}^n\rightarrow\mathbb{R}$
+
+### A Biology perspective
+
+So why do we decided to use concepts of biology in optimization problems? Natural selection has shown us that the evolutionary process provides a constant improvement and survival, for a given specie a group with less chance to survive will likely not while better suited to current environment will likely do, additionally mutations can either improve the specie or not those who do survive in the long term and thus the population benefits. This has happened in animals and particularly human beings the funny thing is that even after a long time, we are not sure we have reached our "global" maxima.
+
+
+### The Travelling Salesman Problem
+
+"Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city and returns to the origin city?"
+
+## Brute Force approach
+
+Let the cities be enumerated, we can permute the cities and evaluate the distance of that permutation and store and update the minimal value found in each permutation, of course this leads to a $O(N!)$ which wouldn't allow to many cities to be considered.
+
+### Defining GA variables for the TSP.
+
+1. Objective Function: the total distance, we want to minimize this.
+
+2. Chromosome: A particular permutation of the cities.
+
+3. Population: A set of chromosomes.
+
+4. Crossover: We will combine the permutations while preserving the pairs of cities that gives us the shortest distance.
+
+5. Mutation: We will swap the indexes of a permutation and evaluate the objective function of this new permutation.
 
 
 
