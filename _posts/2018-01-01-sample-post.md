@@ -199,7 +199,7 @@ chromosome crossover(int* p1, int* p2){
 	return child;
 }
 ```
-Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be <code>Population[0].fitness</code> our code look like this:
+Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be <span class="codeletters">Population[0].fitness</span> <code>Population[0].fitness</code> our code look like this:
 
 ```cpp
 for (int iter = 0; iter < NIter; iter++){
