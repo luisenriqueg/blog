@@ -72,8 +72,8 @@ Let the cities be enumerated, we can permute the enumeration of the cities and e
 
 ### Implementing the code in C++
 
-First we will define a city as an ordered pair $(x_i, y_i)$ for $i = 0, ...,N-1$ in a space $\mathbb{Z}\times\mathbb{Z}$ in a grid $\mbox{NSPACE}\times\mbox{NSPACE}$ we will create 2 arrays one for storing the $x$ and another for the $y$ (this could also be done with a pair)
-Additionally, we will define our main variables NSPACE (grid size), NCities (number of cities), Popul_size (Population size), NIter (Iterations we will rung the algorithm).
+First we will define a city as an ordered pair $(x_i, y_i)$ for $i = 0, ...,N-1$ in a space $\mathbb{Z}\times\mathbb{Z}$ in a grid $\mbox{NSPACE}\times\mbox{NSPACE}$ we will create 2 arrays one for storing the $x_i$ and another for the $y_i$ (this could also be done with a pair)
+Additionally, we will define our main variables NSPACE (grid size), NCities (number of cities), Popul_size (Population size), NIter (Iterations we will run the algorithm) the following values could also be read from a file or user input (stdin).
 
 ```cpp
 const int NSPACE = 250;
@@ -97,24 +97,113 @@ Now we can define our Population as an array of chromosomes:
 chromosome Population[Popul_size];
 ```
 
+We start by filling the cities with random (we will comment about our randonmess at the end of the post) points within the grid:
 
-> This quote will change your life. It will reveal the secrets of the universe, and all the wonders of humanity. Don't misuse it.
-
-
-
-
-
-The [Schrödinger equation](https://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation) is a partial differential equation that describes how the quantum state of a quantum system changes with time:
-
-
-### Code Highlighting
-
-You can find the full list of supported programming languages [here](https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers).
-
-```css
-#container {
-  float: left;
-  margin: 0 -240px 0 0;
-  width: 100%;
+```cpp
+srand(time(NULL));
+for (int i = 0; i < NCities; i++){
+    X[i] = rand() % NSPACE; Y[i] = rand() % NSPACE;
 }
 ```
+Now we initialize our Population with chromosomes with random permutations, to achieve this we will use c++ standard random_shuffle (initialize every permutation ordered from $0$ to $N-1$, then shuffle each permutation)
+
+```cpp
+for (int i = 0; i < Popul_size; i++)
+    for (int j = 0; j < NCities; j++)
+        Population[i].permutation[j] = j;
+
+for (int i = 0; i < Popul_size; i++)
+    random_shuffle(Population[i].permutation, Population[i].permutation + NCities);
+```
+Now to evaluate the fitness we will use 2 auxiliary functions:
+
+```cpp
+inline double dist(int u, int v){
+	double dx = X[u] - X[v];
+	double dy = Y[u] - Y[v];
+	return sqrt(dx * dx + dy * dy);
+}
+
+double total_dist(int* Cities){
+	double total = 0;
+	for (int i = 0; i < NCities; i++)
+		total += dist(Cities[i], Cities[(i + 1) % NCities]);
+	return total;
+}
+```
+So to evaluate the fitness we only need:
+```cpp
+for (int i = 0; i < Popul_size; i++)
+    Population[i].fitness = total_dist(Population[i].permutation);
+```
+To keep the $\max_i f(P_i)$ where $P_i$ is a particular permutation we can sort the chromosomes and create an auxiliary cmp function for the sorting:
+```cpp
+bool cmp(const chromosome& x1, const chromosome& x2){
+	return x1.fitness < x2.fitness;
+}
+```
+To call sort c++ standard library using our cmp function:
+```cpp
+sort(Population, Population + Popul_size, cmp);
+```
+
+We can define our mutation function to swap 2 indexes in the permutation, we can also decide to trigger permutation with a chance previously defined, we could also allow or not the mutation if the mutated version is better or not.
+
+```cpp
+void mutate(int* Cities){
+	double total1 = 0, total2 = 0;
+	total1 = total_dist(Cities);
+	int indexA = rand() % NCities, indexB = rand() % NCities;
+	swap(Cities[indexA], Cities[indexB]);
+	total2 = total_dist(Cities);
+	if (total2 > total1 ) //whether decide only to keep improved mutated versions only
+		swap(Cities[indexA], Cities[indexB]);
+}
+```
+
+Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we keep the best genes in each chromosome") If the next city to be chosen is already chose or we can assign a random city that hasn't been chosen yet, so our code would be the following:
+
+```cpp
+chromosome crossover(int* p1, int* p2){
+	chromosome child;
+	bool visited[NCities];
+	memset(visited, false, sizeof visited);
+	int city = rand() % NCities;
+	double dist1, dist2;
+	child.permutation[0] = city;
+	visited[city] = true;
+	int p1x, p2x;
+	for (int j = 1; j < NCities; j++){
+		for (int i = 0; i < NCities; i++){
+			if (city == p1[i]){
+				dist1 = dist(p1[i], p1[(i + 1) % NCities]);
+				p1x = p1[(i + 1) % NCities];
+			}
+			if (city == p2[i]){
+				dist2 = dist(p2[i], p2[(i + 1) % NCities]);
+				p2x = p2[(i + 1) % NCities];
+			}
+		}
+		child.permutation[j] = dist1 < dist2 ? p1x : p2x;
+		if (visited[p1x]) child.permutation[j] = p2x;
+		else if (!visited[p1x] && visited[p2x]) child.permutation[j] = p1x;
+		city = child.permutation[j];
+		while (visited[city]){
+			city = rand() % NCities;
+		}
+		child.permutation[j] = city;
+		visited[city] = true;
+	}
+	child.fitness = total_dist(child.permutation);
+	return child;
+}
+```
+
+
+
+
+
+
+
+
+> This quote will change your life. It will reveal the secrets of the universe, and all the wonders of humanity. Don't misuse it.
