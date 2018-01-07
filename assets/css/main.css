@@ -267,6 +267,8 @@ blockquote {
 
 
 .codeletters {
+    font-family: "Source Code Pro", monospace;
+    font-size: .8rem;
     padding: 2px 4px;
     color: #d14;
     white-space: nowrap;
