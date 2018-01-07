@@ -53,13 +53,13 @@ So why do we decided to use concepts of biology in optimization problems? Natura
 
 "Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city and returns to the origin city?"
 
-## Brute Force approach
+### Brute Force approach
 
-Let the cities be enumerated, we can permute the cities and evaluate the distance of that permutation and store and update the minimal value found in each permutation, of course this leads to a $O(N!)$ which wouldn't allow to many cities to be considered.
+Let the cities be enumerated, we can permute the enumeration of the cities and evaluate the total distance required for the tour of that permutation and store and update the minimal value found in each permutation, of course this leads to a $O(N!)$ which wouldn't allow to many cities to be considered.
 
 ### Defining GA variables for the TSP.
 
-1. Objective Function: the total distance, we want to minimize this.
+1. Objective Function: the total tour distance, we want to minimize this.
 
 2. Chromosome: A particular permutation of the cities.
 
@@ -70,34 +70,42 @@ Let the cities be enumerated, we can permute the cities and evaluate the distanc
 5. Mutation: We will swap the indexes of a permutation and evaluate the objective function of this new permutation.
 
 
+### Implementing the code in C++
+
+First we will define a city as an ordered pair $(x_i, y_i)$ for $i = 0, ...,N-1$ in a space $\mathbb{Z}\times\mathbb{Z}$ in a grid $\mbox{NSPACE}\times\mbox{NSPACE}$ we will create 2 arrays one for storing the $x$ and another for the $y$ (this could also be done with a pair)
+Additionally, we will define our main variables NSPACE (grid size), NCities (number of cities), Popul_size (Population size), NIter (Iterations we will rung the algorithm).
+
+```cpp
+const int NSPACE = 250;
+const int NCities = 150;
+const int Popul_size = 12;
+const int NIter = 35;
+int X[NCities], Y[NCities];
+```
+
+Now we can define our chromosome, this will be defined as a struct with a particular permutation of the cities and the value of the total distance that permutation give us, which we will name fitness.
+
+```cpp
+struct chromosome{
+	int permutation[NCities];
+	double fitness;
+};
+```
+Now we can define our Population as an array of chromosomes:
+
+```cpp
+chromosome Population[Popul_size];
+```
 
 
 > This quote will change your life. It will reveal the secrets of the universe, and all the wonders of humanity. Don't misuse it.
 
 
-```html
-<html>
-  <head>
-  </head>
-  <body>
-    <p>Hello, World!</p>
-  </body>
-</html>
-```
 
 
-
-### MathJax Example
 
 The [Schrödinger equation](https://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation) is a partial differential equation that describes how the quantum state of a quantum system changes with time:
 
-$$
-i\hbar\frac{\partial}{\partial t} \Psi(\mathbf{r},t) = \left [ \frac{-\hbar^2}{2\mu}\nabla^2 + V(\mathbf{r},t)\right ] \Psi(\mathbf{r},t)
-$$
-
-[Joseph-Louis Millennial](https://en.wikipedia.org/wiki/Joseph-Louis_Millennial) was an Italian mathematician and astronomer who was responsible for the formulation of Lagrangian mechanics, which is a reformulation of Newtonian mechanics.
-
-$$ \frac{\mathrm{d}}{\mathrm{d}t} \left ( \frac {\partial  L}{\partial \dot{q}_j} \right ) =  \frac {\partial L}{\partial q_j} $$
 
 ### Code Highlighting
 
