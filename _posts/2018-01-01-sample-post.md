@@ -161,7 +161,7 @@ void mutate(int* Cities){
 }
 ```
 
-Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we keep the best genes in each chromosome") If the next city to be chosen is already chose or we can assign a random city that hasn't been chosen yet, so our code would be the following:
+Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we keep the best genes in each chromosome") If the next city to be chosen is already chose we can assign a random city that hasn't been chosen yet, so our code would be the following:
 
 ```cpp
 chromosome crossover(int* p1, int* p2){
@@ -198,6 +198,41 @@ chromosome crossover(int* p1, int* p2){
 	return child;
 }
 ```
+Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be Population[0].fitness our code look like this:
+
+```cpp
+for (int iter = 0; iter < NIter; iter++){
+    for (int i = 1; i < Popul_size; i++){
+        Population[i] =
+            crossover(Population[0].permutation, Population[i].permutation);
+        int aux = rand() % 100;
+        if (aux <= Mutate_prob)
+            mutate(Population[i].permutation);
+    }
+
+    for (int i = 0; i < Popul_size; i++)
+        Population[i].fitness = total_dist(Population[i].permutation);
+
+    sort(Population, Population + Popul_size, cmp);
+
+    cout << iter + 1 << " generation\n";
+
+    for (int i = 0; i < Popul_size; i++){
+        for (int j = 0; j < NCities; j++)
+            cout << Population[i].permutation[j] << " ";
+        cout << Population[i].fitness << "\n";
+    }
+}
+```
+
+### total code
+
+### Asymptotic complexity of the code
+
+### Results
+
+### Comments and how to improve the code
+
 
 
 
