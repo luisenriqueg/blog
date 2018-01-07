@@ -9,13 +9,14 @@ image: Biology.jpg
 
 ### Objective of the post
 
-This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly in the field of optimization problems. We will be solving in C++ the classical TSP (Traveling Salesman Problem) using GA (Genetic Algorithms).
+This post attempts to explain briefly what genetic algorithms are and how and why they help us solve some problems particularly in the field of optimization problems. We will be solving in C++ the classical Travelling Salesman Problem (TSP) using Genetic Algorithms (GA).
 
 ### A Genetic Algorithms perspective
 
-Genetic algorithms for optimization can be seen as set of guidelines for designing a heuristic optimization solver in which we trade accuracy in finding the global maxima/minima in return for a faster execution time. 
+Genetic algorithms for optimization can be seen as a set of guidelines for designing a heuristic optimization solver in which we trade accuracy in finding the global maxima/minima in return for a faster execution time. 
 
 This means that it works as a blueprint algorithm in which every concept or step must be adapted to the problem that is being solved.
+
 
 ### An heuristic approach to a simple optimization Problem
 
@@ -26,28 +27,27 @@ Let $f(x) : \mathbb{R} \rightarrow \mathbb{R}$ be a continuous function, we want
 One deterministic way to solve this problem is evaluating for each $x_i = a + i\cdot\epsilon$ the function and update the maximum value found so far, since we do not know future values during the iteration the number of operations required to solve this would be $\frac{b-a}{\epsilon}+1$ considering $\epsilon = 10^{-r}$ this means the number of operations is in the order of $10^r$ leading to a complexity of $O((b-a)\cdot 10^r)$ which can be slow.
 
 
-Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i) \quad \lambda \in \[0,1\]$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value $x'$ and repeat the process evaluating $f(x')$ and combining. Since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fullfill our needs "good answer in short time".
+Now we will explore a non-deterministic solution, Let $X$ be a set of values $x \in \[a,b\]$ with cardinal $N$ these values could follow a specific pattern (e.g equally spaced) or could be chosen at random, now  evaluate $y_i=f(x_i)$ and keep the $x$(s) that gives the highest value(s), to take advantage of the other points select a point $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i) \quad \lambda \in \[0,1\]$ where $x_i < x_{i+1}$ and evaluate $f(x')$ update $x_i$ or $x_{i+1}$ according to which gives a higher value. If we iterate this many times and since the $\max_i f(x_i)$ kept is non-decreasing we may end up with a local maxima, global maxima or for some interval $\[x_i,x_{i+1}\]$ the highest value within a subinterval, to mitigate the possibility of staying at the highest point within an subinterval we could increase the value of $N$ to mitigate the problem of local maxima we could take a random value $x'$ and repeat the process evaluating $f(x')$ and combining. Since at every step every operation is $O(1)$ and assuming we perform $I$ iterations the total complexity would be $O(IN)$ we can test this algorithm and realize that even for small values of these constants we get a good result, and increasing one or the other yields in a higher accuracy we can increase it until it fulfills our needs "good answer in short time".
 
 ### Defining the Genetic Algorithms concepts
 
-The definition of the GA concepts will be described as an analogy to previuos heuristic solution.
+The definition of the GA concepts will be described as an analogy to the previuos heuristic solution.
 
 1. Objective Function: Function we want to optmize. In the previous problem this would be $f(x)$
 
-2. Chromosome: A generic variable that our objective function receives. In the previous problem this would be any $x_i$
+2. Chromosome: A generic variable that our objective function receives. In the previous problem, this would be any $x_i$
 
-3. Population: A set of chromosomes. In the previuos example this would be $X$ with size $N$.
+3. Population: A set of chromosomes. In the previous example, this would be $X$ with size $N$.
 
 4. Crossover: How we combine chromosomes in hope for better chromosomes. In previuos example this would be $x'=x_i + (1-\lambda)\cdot (x_{i+1}-x_i)$
 
-5. Mutation: A way to avoid staying in a local maxima, giving a chance to explore possible better values. In previuos exmaple this would be choosing a random $x$ in hope to improve the maximum value found so far.
+5. Mutation: A way to avoid staying in local maxima, giving a chance to explore possible better values. In previuos exmaple this would be choosing a random $x$ in hope to improve the maximum value found so far.
 
 this can be easily generalized for functions $f:\mathbb{R}^n\rightarrow\mathbb{R}$
 
 ### A Biology perspective
 
-So why do we decided to use concepts of biology in optimization problems? Natural selection has shown us that the evolutionary process provides a constant improvement and survival, for a given specie a group with less chance to survive will likely not while better suited to current environment will likely do, additionally mutations can either improve the specie or not those who do survive in the long term and thus the population benefits. This has happened in animals and particularly human beings the funny thing is that even after a long time, we are not sure we have reached our "global" maxima.
-
+So why did we decide to use concepts of biology in optimization problems? Natural selection has shown us that the evolutionary process provides a constant improvement and survival, for a given species a group with less chance to survive will likely not while better suited to current environment will likely do, additionally mutations can either improve the species or not those who do survive in the long term and thus the population benefits. This has happened in animals and particularly human beings the funny thing is that even after a long time, we are not sure we have reached our "global" maxima.
 
 ### The Travelling Salesman Problem
 
@@ -83,7 +83,7 @@ const int NIter = 35;
 int X[NCities], Y[NCities];
 ```
 
-Now we can define our chromosome, this will be defined as a struct with a particular permutation of the cities and the value of the total distance that permutation give us, which we will name fitness.
+Now we can define our chromosome, this will be defined as a struct with a particular permutation of the cities and the value of the total distance that permutation gives us, which we will name fitness.
 
 ```cpp
 struct chromosome{
@@ -156,12 +156,13 @@ void mutate(int* Cities){
 	int indexA = rand() % NCities, indexB = rand() % NCities;
 	swap(Cities[indexA], Cities[indexB]);
 	total2 = total_dist(Cities);
-	if (total2 > total1 ) //whether decide only to keep improved mutated versions only
+    //whether decide only to keep improved mutated versions only
+	if (total2 > total1 ) 
 		swap(Cities[indexA], Cities[indexB]);
 }
 ```
 
-Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we keep the best genes in each chromosome") If the next city to be chosen is already chose we can assign a random city that hasn't been chosen yet, so our code would be the following:
+Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case, I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we join and keep the best genes in each of the two chromosomes") If the next city to be chosen is already chosen we can assign a random city that hasn't been chosen yet, so our code would be the following:
 
 ```cpp
 chromosome crossover(int* p1, int* p2){
@@ -198,7 +199,7 @@ chromosome crossover(int* p1, int* p2){
 	return child;
 }
 ```
-Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be Population[0].fitness our code look like this:
+Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be <code>Population[0].fitness</code> our code look like this:
 
 ```cpp
 for (int iter = 0; iter < NIter; iter++){
