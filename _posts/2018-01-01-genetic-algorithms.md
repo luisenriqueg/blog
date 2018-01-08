@@ -215,13 +215,6 @@ for (int iter = 0; iter < NIter; iter++){
         Population[i].fitness = total_dist(Population[i].permutation);
 
     sort(Population, Population + Popul_size, cmp);
-
-    cout << iter + 1 << " generation\n";
-
-    for (int i = 0; i < Popul_size; i++){
-        for (int j = 0; j < NCities; j++)
-            cout << Population[i].permutation[j] << " ";
-        cout << Population[i].fitness << "\n";
     }
 }
 ```
@@ -230,13 +223,13 @@ for (int iter = 0; iter < NIter; iter++){
 
 ### Asymptotic complexity of the code
 
-We need to see the operations we perofrm in our main loop let $I$ be number of iterations $N$ the number of Cities and $C$ the crossover cost.
+We need to see the operations we perform in our main loop let $I$ be number of iterations, $N$ the number of cities, $P$ the population size and $C$ the crossover cost.
 
-$O(I\cdot N\cdot C + I\cdot N\cdot NlogN)$
+$$O(IPC + IPN + IP\ln P)$$
 
 Evaluating the asymptotic of the crossover function:
 
-$O(N \cdot N + W )$
+$O(N^2 + W)$
 
 Where $W$ is the operations required to evaluate the following code for each city.
 
@@ -245,12 +238,12 @@ while (visited[city]){
     city = rand() % NCities;
 }
 ```
-Since we use <code>rand()</code> we must consider the average case complexity.
+We will consider the average case complexity.
 
-Let $j$ be the number of cities that have been visited and let $N$ be the number of cities and $x$ be the city we ask whether we have visited, assuming uniform distribution then the probability of x not being visited is: 
+Let $j$ be the number of cities that have been already visited, let $N$ be the number of cities and $x$ be the city we ask whether we have visited or not, assuming each city to be equally likely to be visited then the probability of x not being visited is: 
 $$P(x) = \frac{N-j}{N}$$ 
-Let us define $\lambda$ as our random variable for the number of operations the code results then we want to determine the expected value of operations i.e $E(\lambda)$
-Since whether x is visited or not this follows a Bernoulli process this means that The probability that $\lambda = k$ is given by:
+Let us define $\lambda$ as our random variable for the number of operations the code results, then we want to determine the expected value of operations i.e $E(\lambda)$
+Since we ask "whether x has been visited or not" this behaves as Bernoulli process, this means that The probability that $\lambda = k$ is given by:
 
 $$P(\lambda=k) = \left(\frac{j}{N}\right)^{k-1}\frac{N-j}{N}$$
 
@@ -264,7 +257,7 @@ $$ E(\lambda) = \frac{N-j}{N} \left(  \frac{\frac{j}{N} + \left(1 - \frac{j}{N}\
 
 $$ E(\lambda) = \frac{N}{N-j}$$
 
-which agress with the expected value of a Bernoulli process with probability $P(x) = \frac{N-j}{N}$
+which agrees with the expected value of a Bernoulli process with probability $P(x) = \frac{N-j}{N}$
 
 Next we evaluate the total operations for each number of visited cities $j$ ($0$ means no visited cities yet) the total operations would be:
 
@@ -272,7 +265,7 @@ $$ \sum_{j=0}^{j=N-1} \left(\frac{N}{N-j}\right) = N \sum_{j=1}^{N} \frac{1}{j} 
 
 Giving us a total complexity of $W = O(N \ln N)$.
 
-So the total complexity would be $O(I\cdot N^3)$
+So the total complexity would be $O(IP(N^2 + N \ln N) + IPN + IP\ln P)$ = $O(IPN^2 + IP\lnP)$
 
 ### Results
 
