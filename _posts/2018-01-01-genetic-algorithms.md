@@ -249,9 +249,9 @@ $$P(\lambda=k) = \left(\frac{j}{N}\right)^{k-1}\frac{N-j}{N}$$
 
 So the expected number of operations is given by:
 
-$$ E(\lambda) = \sum \lambda P(\lambda) = \sum_0^\infty k \left(\frac{j}{N}\right)^{k-1}\frac{N-j}{N}  $$
+$$ E(\lambda) = \sum \lambda P(\lambda) = \sum_{k=1}^\infty k \left(\frac{j}{N}\right)^{k-1}\frac{N-j}{N}  $$
 
-$$ E(\lambda) = \frac{N-j}{N} \left(\sum_0^\infty k \left(\frac{j}{N}\right)^{k}+ \sum_0^\infty \left(\frac{j}{N}\right)^{k}\right) $$
+$$ E(\lambda) = \frac{N-j}{N} \left(\sum_{k=0}^\infty k \left(\frac{j}{N}\right)^{k}+ \sum_{k=0}^\infty \left(\frac{j}{N}\right)^{k}\right) $$
 
 $$ E(\lambda) = \frac{N-j}{N} \left(  \frac{\frac{j}{N} + \left(1 - \frac{j}{N}\right)}{(1-\frac{j}{N})^2} \right) $$
 
