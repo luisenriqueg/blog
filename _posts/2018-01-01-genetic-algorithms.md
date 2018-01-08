@@ -282,6 +282,7 @@ If we want to add more cities we could allow a low value for $P$ in which case t
 
 ![Picture description](/assets/img/GATSPResults.jpg){: .center-image }
 
+<img src="{{ site.baseurl }}/assets/img/GA_TSP_Results.jpg">
 
 ### Comments and how to improve the code
 
