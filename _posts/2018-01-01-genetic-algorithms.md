@@ -278,6 +278,11 @@ If we want to add more cities we could allow a low value for $P$ in which case t
 
 ![results]("/assets/img/GA_TSP_Results.jpg")
 
+![Picture description](/img/GATSPResults.jpg){: .center-image }
+
+![Picture description](/assets/img/GATSPResults.jpg){: .center-image }
+
+
 ### Comments and how to improve the code
 
 
