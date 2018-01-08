@@ -73,7 +73,7 @@ Let the cities be enumerated, we can permute the enumeration of the cities and e
 ### Implementing the code in C++
 
 First we will define a city as an ordered pair $(x_i, y_i)$ for $i = 0, ...,N-1$ in a space $\mathbb{Z}\times\mathbb{Z}$ in a grid $\mbox{NSPACE}\times\mbox{NSPACE}$ we will create 2 arrays one for storing the $x_i$ and another for the $y_i$ (this could also be done with a pair)
-Additionally, we will define our main variables NSPACE (grid size), NCities (number of cities), Popul_size (Population size), NIter (Iterations we will run the algorithm) the following values could also be read from a file or user input (stdin).
+Additionally, we will define our main variables <code>NSPACE</code> (grid size), <code>NCities</code> (number of cities), <code>Popul_size</code> (Population size), <code>NIter</code> (Iterations we will run the algorithm) the following values could also be read from a file or user input (stdin).
 
 ```cpp
 const int NSPACE = 250;
@@ -105,7 +105,7 @@ for (int i = 0; i < NCities; i++){
     X[i] = rand() % NSPACE; Y[i] = rand() % NSPACE;
 }
 ```
-Now we initialize our Population with chromosomes with random permutations, to achieve this we will use c++ standard random_shuffle (initialize every permutation ordered from $0$ to $N-1$, then shuffle each permutation)
+Now we initialize our Population with chromosomes with random permutations, to achieve this we will use c++ standard <code>random_shuffle</code> (initialize every permutation ordered from $0$ to $N-1$, then shuffle each permutation)
 
 ```cpp
 for (int i = 0; i < Popul_size; i++)
@@ -142,7 +142,7 @@ bool cmp(const chromosome& x1, const chromosome& x2){
 	return x1.fitness < x2.fitness;
 }
 ```
-To call sort c++ standard library using our cmp function:
+To call <code>sort</code> c++ standard library using our cmp function:
 ```cpp
 sort(Population, Population + Popul_size, cmp);
 ```
@@ -199,7 +199,7 @@ chromosome crossover(int* p1, int* p2){
 	return child;
 }
 ```
-Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be Population[0] (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability "Mutate_prob", after each chromosome has followed this procedure we now evaluate its fitness with our total_dist function, then sort the chromosomes so our best value will be <span class="codeletters">Population[0].fitness</span> <code>Population[0].fitness</code> our code look like this:
+Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be  <code>Population[0]</code> (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability <code>Mutate_prob</code>, after each chromosome has followed this procedure we now evaluate its fitness with our <<code>total_dist</code> function, then sort the chromosomes so our best value will be <code>Population[0].fitness</code> our code look like this:
 
 ```cpp
 for (int iter = 0; iter < NIter; iter++){
