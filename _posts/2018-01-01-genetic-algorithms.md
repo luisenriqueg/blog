@@ -77,9 +77,9 @@ Additionally, we will define our main variables <code>NSPACE</code> (grid size),
 
 ```cpp
 const int NSPACE = 250;
-const int NCities = 150;
+const int NCities = 15;
 const int Popul_size = 12;
-const int NIter = 35;
+const int NIter = 30;
 int X[NCities], Y[NCities];
 ```
 
@@ -265,9 +265,14 @@ $$ \sum_{j=0}^{j=N-1} \left(\frac{N}{N-j}\right) = N \sum_{j=1}^{N} \frac{1}{j} 
 
 Giving us a total complexity of $W = O(N \ln N)$.
 
-So the total complexity would be $O(IP(N^2 + N \ln N) + IPN + IP\ln P)$ = $O(IPN^2 + IP\lnP)$
+So the total complexity would be $O(IP(N^2 + N \ln N) + IPN + IP\ln P)$ = $O(IPN^2 + IP\ln P)$
+
+If we want to add more cities we could allow a low value for $P$ in which case the complexity would be $O(IPN^2)$. This calculation allow us to prove that our algorithm complexity is far better than the original $O(N!)$ this also allow us to see how we can stress our algorithm.
+
 
 ### Results
+
+
 
 ### Comments and how to improve the code
 
