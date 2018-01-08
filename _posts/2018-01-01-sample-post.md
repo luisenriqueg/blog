@@ -245,7 +245,7 @@ while (visited[city]){
     city = rand() % NCities;
 }
 ```
-Since we use <<code>rand()</code> we must consider the average case complexity.
+Since we use <code>rand()</code> we must consider the average case complexity.
 
 Let $j$ be the number of cities that have been visited and let $N$ be the number of cities and $x$ be the city we ask whether we have visited, assuming uniform distribution then the probability of x not being visited is: 
 $$P(x) = \frac{N-j}{N}$$ 
@@ -258,9 +258,9 @@ So the expected number of operations is given by:
 
 $$ E(\lambda) = \sum \lambda P(\lambda) = \sum_0^\infty k \left(\frac{j}{N}\right)^{k-1}\frac{N-j}{N}  $$
 
-$$ E(\lambda) = \frac{N-j}{N} \left\[\sum_0^\infty k \left(\frac{j}{N}\right)^{k}+ \sum_0^\infty \left(\frac{j}{N}\right)^{k}\right\]$$
+$$ E(\lambda) = \frac{N-j}{N} \left(\sum_0^\infty k \left(\frac{j}{N}\right)^{k}+ \sum_0^\infty \left(\frac{j}{N}\right)^{k}\right) $$
 
-$$ E(\lambda) = \frac{N-j}{N} \left\[  \frac{\frac{j}{N} + \left(1 - \frac{j}{N}\right)}{(1-\frac{j}{N})^2} \right\] $$
+$$ E(\lambda) = \frac{N-j}{N} \left(  \frac{\frac{j}{N} + \left(1 - \frac{j}{N}\right)}{(1-\frac{j}{N})^2} \right) $$
 
 $$ E(\lambda) = \frac{N}{N-j}$$
 
