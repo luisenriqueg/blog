@@ -272,7 +272,7 @@ If we want to add more cities we could allow a low value for $P$ in which case t
 
 ### Results
 
-![result](/img/GA_TSP_Results.jpg)
+![result](/img/GATSPResults.jpg)
 
 ![results]("/assets/img/GA_TSP_Results.jpg")
 
