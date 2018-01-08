@@ -28,6 +28,9 @@ author:              'Luis Enrique'
 #feed:
 #  path: rss-feed.xml
 
+url: "https://luisgocas.github.io"
+baseurl: /blog
+
 defaults:
   - scope:
       path: "assets/img"
