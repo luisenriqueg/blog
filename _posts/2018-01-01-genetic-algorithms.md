@@ -250,7 +250,7 @@ $$ E(\lambda) = \frac{N-j}{N} \left(  \frac{\frac{j}{N} + \left(1 - \frac{j}{N}\
 
 $$ E(\lambda) = \frac{N}{N-j}$$
 
-which agrees with the expected value of a Bernoulli process with probability $P(x) = \frac{N-j}{N}$
+Which agrees with the expected value of a Bernoulli process with probability $P(x) = \frac{N-j}{N}$
 
 Next we evaluate the total operations for each number of visited cities $j$ ($0$ means no visited cities yet) the total operations would be:
 

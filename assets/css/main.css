@@ -279,7 +279,7 @@ blockquote {
 .vs-code .number { color: #6e96be;}
 .vs-code .operator { color: #dfdfbf;}
 .vs-code .cppType { color:#8acccf; }
-
+.vs-code .cppParameter {color: #7f7f7f;}
 
 .codeletters {
     font-family: "Source Code Pro", monospace;
