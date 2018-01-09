@@ -270,6 +270,7 @@ blockquote {
     font-size:13;
     color:#dfdfbf;
     background:#2c2c2c;
+    word-wrap: normal;
 }
 
 .vs-code .comment { color:#7a987a;}
