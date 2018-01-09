@@ -265,6 +265,20 @@ blockquote {
   Code
 */
 
+.vs-code {
+    font-family:Consolas;
+    font-size:13;
+    color:#dfdfbf;
+    background:#2c2c2c;
+}
+
+.vs-code .comment { color:#7a987a;}
+.vs-code .keyword { color: #efc986; }
+.vs-code .cppMacro { color: #bd63c5}
+.vs-code .number { color: #6e96be;}
+.vs-code .operator { color: #dfdfbf;}
+.vs-code .cppType { color:#8acccf; }
+
 
 .codeletters {
     font-family: "Source Code Pro", monospace;
@@ -296,10 +310,7 @@ pre {
   line-height: 1.4;
   white-space: pre;
   white-space: pre-wrap;
-/*  word-break: break-all;
-  word-wrap: break-word;
-*/  background-color: #f5f5f5;
-    overflow-x: scroll;
+  background-color: #f5f5f5;
 }
 pre code {
   padding: 0;
