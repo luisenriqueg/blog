@@ -280,7 +280,9 @@ blockquote {
 .vs-code .operator { color: #dfdfbf;}
 .vs-code .cppType { color:#8acccf; }
 .vs-code .cppParameter {color: #7f7f7f;}
-.vs-code .cppGlobalVariable{color: #bd63c5;}
+.vs-code .cppGlobalVariable {color: #bd63c5;}
+.vs-code .cppFunction {color: #cc9393;}
+
 
 .codeletters {
     font-family: "Source Code Pro", monospace;
