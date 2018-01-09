@@ -75,14 +75,6 @@ Let the cities be enumerated, we can permute the enumeration of the cities and e
 First we will define a city as an ordered pair $(x_i, y_i)$ for $i = 0, ...,N-1$ in a space $\mathbb{Z}\times\mathbb{Z}$ in a grid $\mbox{NSPACE}\times\mbox{NSPACE}$ we will create 2 arrays one for storing the $x_i$ and another for the $y_i$ (this could also be done with a pair)
 Additionally, we will define our main variables <code>NSPACE</code> (grid size), <code>NCities</code> (number of cities), <code>Popul_size</code> (Population size), <code>NIter</code> (Iterations we will run the algorithm) the following values could also be read from a file or user input (stdin).
 
-```cpp
-const int NSPACE = 250;
-const int NCities = 15;
-const int Popul_size = 12;
-const int NIter = 30;
-int X[NCities], Y[NCities];
-```
-
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="identifier">NSPACE</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">250</span><span class="operator">;</span>
 <span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="identifier">NCities</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">15</span><span class="operator">;</span><span class="comment">//&nbsp;3000;//&nbsp;15;</span>
 <span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="identifier">Popul_size</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">12</span><span class="operator">;</span>
@@ -92,12 +84,6 @@ int X[NCities], Y[NCities];
 
 Now we can define our chromosome, this will be defined as a struct with a particular permutation of the cities and the value of the total distance that permutation gives us, which we will name fitness.
 
-```cpp
-struct chromosome{
-	int permutation[NCities];
-	double fitness;
-};
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">struct</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">{</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">];</span>
@@ -106,22 +92,11 @@ struct chromosome{
 
 Now we can define our Population as an array of chromosomes:
 
-```cpp
-chromosome Population[Popul_size];
-```
-
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">];</span>
 </pre>
 
 
 We start by filling the cities with random (we will comment about our randonmess at the end of the post) points within the grid:
-
-```cpp
-srand(time(NULL));
-for (int i = 0; i < NCities; i++){
-    X[i] = rand() % NSPACE; Y[i] = rand() % NSPACE;
-}
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppFunction - identifier - (TRANSIENT)">srand</span><span class="operator">(</span><span class="cppFunction - identifier - (TRANSIENT)">time</span><span class="operator">(</span><span class="cppMacro - identifier - (TRANSIENT)">NULL</span><span class="operator">));</span>
 <span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++){</span>
@@ -129,16 +104,6 @@ for (int i = 0; i < NCities; i++){
 <span class="operator">}</span></pre>
 
 Now we initialize our Population with chromosomes with random permutations, to achieve this we will use c++ standard <code>random_shuffle</code> (initialize every permutation ordered from $0$ to $N-1$, then shuffle each permutation)
-
-```cpp
-for (int i = 0; i < Popul_size; i++)
-    for (int j = 0; j < NCities; j++)
-        Population[i].permutation[j] = j;
-
-for (int i = 0; i < Popul_size; i++)
-    random_shuffle(Population[i].permutation, Population[i].permutation + NCities);
-```
-
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">++)</span>
@@ -148,21 +113,6 @@ for (int i = 0; i < Popul_size; i++)
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">random_shuffle</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">);</span></pre>
 
 Now to evaluate the fitness we will use 2 auxiliary functions:
-
-```cpp
-inline double dist(int u, int v){
-	double dx = X[u] - X[v];
-	double dy = Y[u] - Y[v];
-	return sqrt(dx * dx + dy * dy);
-}
-
-double total_dist(int* Cities){
-	double total = 0;
-	for (int i = 0; i < NCities; i++)
-		total += dist(Cities[i], Cities[(i + 1) % NCities]);
-	return total;
-}
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">inline</span>&nbsp;<span class="keyword">double</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">dist</span><span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">u</span><span class="operator">,</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">v</span><span class="operator">){</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dx</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">X</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">u</span><span class="operator">]</span>&nbsp;<span class="operator">-</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">X</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">v</span><span class="operator">];</span>
@@ -178,49 +128,24 @@ double total_dist(int* Cities){
 <span class="operator">}</span></pre>
 
 So to evaluate the fitness we only need:
-```cpp
-for (int i = 0; i < Popul_size; i++)
-    Population[i].fitness = total_dist(Population[i].permutation);
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span></pre>
 
 
 To keep the $\max_i f(P_i)$ where $P_i$ is a particular permutation we can sort the chromosomes and create an auxiliary cmp function for the sorting:
-```cpp
-bool cmp(const chromosome& x1, const chromosome& x2){
-	return x1.fitness < x2.fitness;
-}
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">bool</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">cmp</span><span class="operator">(</span><span class="keyword">const</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">&amp;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x1</span><span class="operator">,</span>&nbsp;<span class="keyword">const</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">&amp;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x2</span><span class="operator">){</span>
 	<span class="keyword">return</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x1</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x2</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span><span class="operator">;</span>
 <span class="operator">}</span></pre>
 
 To call <code>sort</code> c++ standard library using our cmp function:
-```cpp
-sort(Population, Population + Popul_size, cmp);
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppFunction - identifier - (TRANSIENT)">sort</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">,</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">cmp</span><span class="operator">);</span>
 </pre>
 
 
 We can define our mutation function to swap 2 indexes in the permutation, we can also decide to trigger permutation with a chance previously defined, we could also allow or not the mutation if the mutated version is better or not.
-
-```cpp
-void mutate(int* Cities){
-	double total1 = 0, total2 = 0;
-	total1 = total_dist(Cities);
-	int indexA = rand() % NCities, indexB = rand() % NCities;
-	swap(Cities[indexA], Cities[indexB]);
-	total2 = total_dist(Cities);
-    //whether decide only to keep improved mutated versions only
-	if (total2 > total1 ) 
-		swap(Cities[indexA], Cities[indexB]);
-}
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">void</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">mutate</span><span class="operator">(</span><span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">){</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total1</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">,</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total2</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>
@@ -234,42 +159,6 @@ void mutate(int* Cities){
 
 
 Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case, I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we join and keep the best genes in each of the two chromosomes") If the next city to be chosen is already chosen we can assign a random city that hasn't been chosen yet, so our code would be the following:
-
-```cpp
-chromosome crossover(int* p1, int* p2){
-	chromosome child;
-	bool visited[NCities];
-	memset(visited, false, sizeof visited);
-	int city = rand() % NCities;
-	double dist1, dist2;
-	child.permutation[0] = city;
-	visited[city] = true;
-	int p1x, p2x;
-	for (int j = 1; j < NCities; j++){
-		for (int i = 0; i < NCities; i++){
-			if (city == p1[i]){
-				dist1 = dist(p1[i], p1[(i + 1) % NCities]);
-				p1x = p1[(i + 1) % NCities];
-			}
-			if (city == p2[i]){
-				dist2 = dist(p2[i], p2[(i + 1) % NCities]);
-				p2x = p2[(i + 1) % NCities];
-			}
-		}
-		child.permutation[j] = dist1 < dist2 ? p1x : p2x;
-		if (visited[p1x]) child.permutation[j] = p2x;
-		else if (!visited[p1x] && visited[p2x]) child.permutation[j] = p1x;
-		city = child.permutation[j];
-		while (visited[city]){
-			city = rand() % NCities;
-		}
-		child.permutation[j] = city;
-		visited[city] = true;
-	}
-	child.fitness = total_dist(child.permutation);
-	return child;
-}
-```
 
 <pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">crossover</span><span class="operator">(</span><span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">,</span>&nbsp;<span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">){</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">;</span>
@@ -307,25 +196,7 @@ chromosome crossover(int* p1, int* p2){
 
 Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be  <code>Population[0]</code> (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability <code>Mutate_prob</code>, after each chromosome has followed this procedure we now evaluate its fitness with our <code>total_dist</code> function, then sort the chromosomes so our best value will be <code>Population[0].fitness</code> our code look like this:
 
-```cpp
-for (int iter = 0; iter < NIter; iter++){
-    for (int i = 1; i < Popul_size; i++){
-        Population[i] =
-            crossover(Population[0].permutation, Population[i].permutation);
-        int aux = rand() % 100;
-        if (aux <= Mutate_prob)
-            mutate(Population[i].permutation);
-    }
-
-    for (int i = 0; i < Popul_size; i++)
-        Population[i].fitness = total_dist(Population[i].permutation);
-
-    sort(Population, Population + Popul_size, cmp);
-    }
-}
-```
-
-<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NIter</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span><span class="operator">++){</span>
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NIter</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span><span class="operator">++){</span>
  
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">1</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++){</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>
@@ -354,13 +225,8 @@ $O(N^2 + W)$
 
 Where $W$ is the operations required to evaluate the following code for each city.
 
-```cpp
-while (visited[city]){
-    city = rand() % NCities;
-}
-```
 
-<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;"><span class="keyword">while</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]){</span>
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">while</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]){</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>
 <span class="operator">}</span></pre>
 
@@ -402,15 +268,3 @@ If we want to add more cities we could allow a low value for $P$ in which case t
 ### Results
 
 <img src="{{ site.baseurl }}/assets/img/GA_TSP_Results.jpg">
-
-### Comments and how to improve the code
-
-
-
-
-
-
-
-
-
-> This quote will change your life. It will reveal the secrets of the universe, and all the wonders of humanity. Don't misuse it.
