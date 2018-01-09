@@ -97,11 +97,22 @@ struct chromosome{
 	double fitness;
 };
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">struct</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">{</span>
+	<span class="keyword">int</span>&nbsp;<span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">];</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppMemberField - identifier - (TRANSIENT)">fitness</span><span class="operator">;</span>
+<span class="operator">};</span></pre>
+
+
 Now we can define our Population as an array of chromosomes:
 
 ```cpp
 chromosome Population[Popul_size];
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">];</span>
+</pre>
+
 
 We start by filling the cities with random (we will comment about our randonmess at the end of the post) points within the grid:
 
@@ -111,6 +122,13 @@ for (int i = 0; i < NCities; i++){
     X[i] = rand() % NSPACE; Y[i] = rand() % NSPACE;
 }
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppFunction - identifier - (TRANSIENT)">srand</span><span class="operator">(</span><span class="cppFunction - identifier - (TRANSIENT)">time</span><span class="operator">(</span><span class="cppMacro - identifier - (TRANSIENT)">NULL</span><span class="operator">));</span>
+<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++){</span>
+	<span class="cppGlobalVariable - identifier - (TRANSIENT)">X</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NSPACE</span><span class="operator">;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Y</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NSPACE</span><span class="operator">;</span>
+<span class="operator">}</span></pre>
+
+
 Now we initialize our Population with chromosomes with random permutations, to achieve this we will use c++ standard <code>random_shuffle</code> (initialize every permutation ordered from $0$ to $N-1$, then shuffle each permutation)
 
 ```cpp
@@ -121,6 +139,16 @@ for (int i = 0; i < Popul_size; i++)
 for (int i = 0; i < Popul_size; i++)
     random_shuffle(Population[i].permutation, Population[i].permutation + NCities);
 ```
+
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
+	<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">++)</span>
+		<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">;</span>
+ 
+<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
+	<span class="cppFunction - identifier - (TRANSIENT)">random_shuffle</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">);</span></pre>
+
+
 Now to evaluate the fitness we will use 2 auxiliary functions:
 
 ```cpp
@@ -137,21 +165,51 @@ double total_dist(int* Cities){
 	return total;
 }
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">inline</span>&nbsp;<span class="keyword">double</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">dist</span><span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">u</span><span class="operator">,</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">v</span><span class="operator">){</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dx</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">X</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">u</span><span class="operator">]</span>&nbsp;<span class="operator">-</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">X</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">v</span><span class="operator">];</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dy</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Y</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">u</span><span class="operator">]</span>&nbsp;<span class="operator">-</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Y</span><span class="operator">[</span><span class="cppParameter - identifier - (TRANSIENT)">v</span><span class="operator">];</span>
+	<span class="keyword">return</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">sqrt</span><span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">dx</span>&nbsp;<span class="operator">*</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dx</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dy</span>&nbsp;<span class="operator">*</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dy</span><span class="operator">);</span>
+<span class="operator">}</span>
+ 
+<span class="keyword">double</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">){</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>
+	<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
+		<span class="cppLocalVariable - identifier - (TRANSIENT)">total</span>&nbsp;<span class="operator">+=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">dist</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">],</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="number">1</span><span class="operator">)</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">]);</span>
+	<span class="keyword">return</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total</span><span class="operator">;</span>
+<span class="operator">}</span></pre>
+
+
 So to evaluate the fitness we only need:
 ```cpp
 for (int i = 0; i < Popul_size; i++)
     Population[i].fitness = total_dist(Population[i].permutation);
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
+	<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span></pre>
+
+
+
 To keep the $\max_i f(P_i)$ where $P_i$ is a particular permutation we can sort the chromosomes and create an auxiliary cmp function for the sorting:
 ```cpp
 bool cmp(const chromosome& x1, const chromosome& x2){
 	return x1.fitness < x2.fitness;
 }
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">bool</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">cmp</span><span class="operator">(</span><span class="keyword">const</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">&amp;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x1</span><span class="operator">,</span>&nbsp;<span class="keyword">const</span>&nbsp;<span class="cppType - identifier - (TRANSIENT)">chromosome</span><span class="operator">&amp;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x2</span><span class="operator">){</span>
+	<span class="keyword">return</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x1</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">x2</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span><span class="operator">;</span>
+<span class="operator">}</span></pre>
+
 To call <code>sort</code> c++ standard library using our cmp function:
 ```cpp
 sort(Population, Population + Popul_size, cmp);
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppFunction - identifier - (TRANSIENT)">sort</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">,</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">cmp</span><span class="operator">);</span>
+</pre>
+
 
 We can define our mutation function to swap 2 indexes in the permutation, we can also decide to trigger permutation with a chance previously defined, we could also allow or not the mutation if the mutated version is better or not.
 
@@ -167,6 +225,17 @@ void mutate(int* Cities){
 		swap(Cities[indexA], Cities[indexB]);
 }
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">void</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">mutate</span><span class="operator">(</span><span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">){</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total1</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">,</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total2</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">total1</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">);</span>
+	<span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">indexA</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">,</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">indexB</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>
+	<span class="cppFunction - identifier - (TRANSIENT)">swap</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">indexA</span><span class="operator">],</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">indexB</span><span class="operator">]);</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">total2</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">);</span>
+	<span class="keyword">if</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">total2</span>&nbsp;<span class="operator">&gt;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">total1</span>&nbsp;<span class="operator">)</span>
+		<span class="cppFunction - identifier - (TRANSIENT)">swap</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">indexA</span><span class="operator">],</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">Cities</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">indexB</span><span class="operator">]);</span>
+<span class="operator">}</span></pre>
+
 
 Now it's time to define our principal function of the algorithm, the crossover there can be several ways to define this, in this case, I have chosen the following approach: First we will crossover all the chromosomes only with our best permutation found so far we will evaluate for a particular city which of the 2 chromosomes.permutation give us the shortest distance to the next city in that permutation. ("biologically this means we join and keep the best genes in each of the two chromosomes") If the next city to be chosen is already chosen we can assign a random city that hasn't been chosen yet, so our code would be the following:
 
@@ -205,6 +274,44 @@ chromosome crossover(int* p1, int* p2){
 	return child;
 }
 ```
+
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">crossover</span><span class="operator">(</span><span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">,</span>&nbsp;<span class="keyword">int</span><span class="operator">*</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">){</span>
+	<span class="cppType - identifier - (TRANSIENT)">chromosome</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">;</span>
+	<span class="keyword">bool</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">];</span>
+	<span class="cppFunction - identifier - (TRANSIENT)">memset</span><span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">,</span>&nbsp;<span class="keyword">false</span><span class="operator">,</span>&nbsp;<span class="keyword">sizeof</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">);</span>
+	<span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>
+	<span class="keyword">double</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dist1</span><span class="operator">,</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dist2</span><span class="operator">;</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">;</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="keyword">true</span><span class="operator">;</span>
+	<span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span><span class="operator">,</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p2x</span><span class="operator">;</span>
+	<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">1</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">++){</span>
+		<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++){</span>
+			<span class="keyword">if</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">==</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]){</span>
+				<span class="cppLocalVariable - identifier - (TRANSIENT)">dist1</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">dist</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">],</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">[(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="number">1</span><span class="operator">)</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">]);</span>
+				<span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p1</span><span class="operator">[(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="number">1</span><span class="operator">)</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">];</span>
+			<span class="operator">}</span>
+			<span class="keyword">if</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">==</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]){</span>
+				<span class="cppLocalVariable - identifier - (TRANSIENT)">dist2</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">dist</span><span class="operator">(</span><span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">],</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">[(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="number">1</span><span class="operator">)</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">]);</span>
+				<span class="cppLocalVariable - identifier - (TRANSIENT)">p2x</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppParameter - identifier - (TRANSIENT)">p2</span><span class="operator">[(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="number">1</span><span class="operator">)</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">];</span>
+			<span class="operator">}</span>
+		<span class="operator">}</span>
+		<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dist1</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">dist2</span>&nbsp;<span class="operator">?</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span>&nbsp;<span class="operator">:</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p2x</span><span class="operator">;</span>
+		<span class="keyword">if</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span><span class="operator">])</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p2x</span><span class="operator">;</span>
+		<span class="keyword">else</span>&nbsp;<span class="keyword">if</span>&nbsp;<span class="operator">(!</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span><span class="operator">]</span>&nbsp;<span class="operator">&amp;&amp;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">p2x</span><span class="operator">])</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">p1x</span><span class="operator">;</span>
+		<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">];</span>
+		<span class="keyword">while</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]){</span>
+			<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>
+		<span class="operator">}</span>
+		<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">j</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">;</span>
+		<span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="keyword">true</span><span class="operator">;</span>
+	<span class="operator">}</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">.</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span>
+	<span class="keyword">return</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">child</span><span class="operator">;</span>
+<span class="operator">}</span></pre>
+
+
+
 Now once we have defined our functions we can code our main loop: for each iteration and for each chromosome we will crossover it with the best chromosome we have so far which will be  <code>Population[0]</code> (to keep this as an invariant we will sort the chromosomes) after crossover is performed we will decide to mutate said chromosome with probability <code>Mutate_prob</code>, after each chromosome has followed this procedure we now evaluate its fitness with our <code>total_dist</code> function, then sort the chromosomes so our best value will be <code>Population[0].fitness</code> our code look like this:
 
 ```cpp
@@ -225,6 +332,25 @@ for (int iter = 0; iter < NIter; iter++){
 }
 ```
 
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NIter</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">iter</span><span class="operator">++){</span>
+ 
+	<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">1</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++){</span>
+		<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">]</span>&nbsp;<span class="operator">=</span>
+			<span class="cppFunction - identifier - (TRANSIENT)">crossover</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="number">0</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span>
+		<span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">aux</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="number">100</span><span class="operator">;</span>
+		<span class="keyword">if</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">aux</span>&nbsp;<span class="operator">&lt;=</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Mutate_prob</span><span class="operator">)</span>
+			<span class="cppFunction - identifier - (TRANSIENT)">mutate</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span>
+	<span class="operator">}</span>
+ 
+	<span class="keyword">for</span>&nbsp;<span class="operator">(</span><span class="keyword">int</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">0</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span>&nbsp;<span class="operator">&lt;</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">;</span>&nbsp;<span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">++)</span>
+		<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">fitness</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">total_dist</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">i</span><span class="operator">].</span><span class="cppMemberField - identifier - (TRANSIENT)">permutation</span><span class="operator">);</span>
+ 
+	<span class="cppFunction - identifier - (TRANSIENT)">sort</span><span class="operator">(</span><span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span><span class="operator">,</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Population</span>&nbsp;<span class="operator">+</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span><span class="operator">,</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">cmp</span><span class="operator">);</span>
+ 
+<span class="operator">}</span></pre>
+
+
+
 ### total code
 
 ### Asymptotic complexity of the code
@@ -244,6 +370,13 @@ while (visited[city]){
     city = rand() % NCities;
 }
 ```
+
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;" class="vs-code"><span class="keyword">while</span>&nbsp;<span class="operator">(</span><span class="cppLocalVariable - identifier - (TRANSIENT)">visited</span><span class="operator">[</span><span class="cppLocalVariable - identifier - (TRANSIENT)">city</span><span class="operator">]){</span>
+	<span class="cppLocalVariable - identifier - (TRANSIENT)">city</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="cppFunction - identifier - (TRANSIENT)">rand</span><span class="operator">()</span>&nbsp;<span class="operator">%</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span><span class="operator">;</span>
+<span class="operator">}</span>
+</pre>
+
+
 We will consider the average case complexity.
 
 Let $j$ be the number of cities that have been already visited, let $N$ be the number of cities and $x$ be the city we ask whether we have visited or not, assuming each city to be equally likely to be visited then the probability of x not being visited is: 
