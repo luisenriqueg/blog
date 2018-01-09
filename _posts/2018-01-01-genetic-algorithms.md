@@ -344,8 +344,6 @@ for (int iter = 0; iter < NIter; iter++){
 
 
 
-### total code
-
 ### Asymptotic complexity of the code
 
 We need to see the operations we perform in our main loop let $I$ be number of iterations, $N$ the number of cities, $P$ the population size and $C$ the crossover cost.
@@ -394,6 +392,7 @@ which agrees with the expected value of a Bernoulli process with probability $P(
 Next we evaluate the total operations for each number of visited cities $j$ ($0$ means no visited cities yet) the total operations would be:
 
 $$ \sum_{j=0}^{j=N-1} \left(\frac{N}{N-j}\right) = N \sum_{j=1}^{N} \frac{1}{j} < N \left(1+ \int_{1}^{N} \frac{1}{x} dx \right)$$ 
+
 $$ = N(1+\ln N)$$
 
 Giving us a total complexity of $W = O(N \ln N)$.
