@@ -83,6 +83,12 @@ const int NIter = 30;
 int X[NCities], Y[NCities];
 ```
 
+<pre style="font-family:Consolas;font-size:21;color:gainsboro;background:#1e1e1e;"><span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NSPACE</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">250</span><span class="operator">;</span>
+<span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NCities</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">15</span><span class="operator">;</span><span class="comment">//&nbsp;3000;//&nbsp;15;</span>
+<span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">Popul_size</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">12</span><span class="operator">;</span>
+<span class="keyword">const</span>&nbsp;<span class="keyword">int</span>&nbsp;<span class="cppGlobalVariable - identifier - (TRANSIENT)">NIter</span>&nbsp;<span class="operator">=</span>&nbsp;<span class="number">60</span><span class="operator">;</span></pre>
+
+
 Now we can define our chromosome, this will be defined as a struct with a particular permutation of the cities and the value of the total distance that permutation gives us, which we will name fitness.
 
 ```cpp
